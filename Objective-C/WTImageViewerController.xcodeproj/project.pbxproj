@@ -1,0 +1,573 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		286A7F311E83790B000AF690 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F301E83790B000AF690 /* main.m */; };
+		286A7F341E83790B000AF690 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F331E83790B000AF690 /* AppDelegate.m */; };
+		286A7F371E83790B000AF690 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F361E83790B000AF690 /* ViewController.m */; };
+		286A7F3A1E83790B000AF690 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 286A7F381E83790B000AF690 /* Main.storyboard */; };
+		286A7F3C1E83790B000AF690 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 286A7F3B1E83790B000AF690 /* Assets.xcassets */; };
+		286A7F3F1E83790B000AF690 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 286A7F3D1E83790B000AF690 /* LaunchScreen.storyboard */; };
+		286A7F4A1E83790B000AF690 /* WTImageViewerControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F491E83790B000AF690 /* WTImageViewerControllerTests.m */; };
+		286A7F551E83790B000AF690 /* WTImageViewerControllerUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F541E83790B000AF690 /* WTImageViewerControllerUITests.m */; };
+		286A7F671E837938000AF690 /* WTImageViewerAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F631E837938000AF690 /* WTImageViewerAsset.swift */; };
+		286A7F681E837938000AF690 /* WTImageViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F641E837938000AF690 /* WTImageViewerCell.swift */; };
+		286A7F691E837938000AF690 /* WTImageViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F651E837938000AF690 /* WTImageViewerController.swift */; };
+		286A7F6A1E837938000AF690 /* WTSectorProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F661E837938000AF690 /* WTSectorProgressView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		286A7F461E83790B000AF690 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 286A7F241E83790B000AF690 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 286A7F2B1E83790B000AF690;
+			remoteInfo = WTImageViewerController;
+		};
+		286A7F511E83790B000AF690 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 286A7F241E83790B000AF690 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 286A7F2B1E83790B000AF690;
+			remoteInfo = WTImageViewerController;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		286A7F2C1E83790B000AF690 /* WTImageViewerController.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WTImageViewerController.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		286A7F301E83790B000AF690 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		286A7F321E83790B000AF690 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		286A7F331E83790B000AF690 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		286A7F351E83790B000AF690 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		286A7F361E83790B000AF690 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		286A7F391E83790B000AF690 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		286A7F3B1E83790B000AF690 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		286A7F3E1E83790B000AF690 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		286A7F401E83790B000AF690 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		286A7F451E83790B000AF690 /* WTImageViewerControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WTImageViewerControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		286A7F491E83790B000AF690 /* WTImageViewerControllerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTImageViewerControllerTests.m; sourceTree = "<group>"; };
+		286A7F4B1E83790B000AF690 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		286A7F501E83790B000AF690 /* WTImageViewerControllerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WTImageViewerControllerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		286A7F541E83790B000AF690 /* WTImageViewerControllerUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WTImageViewerControllerUITests.m; sourceTree = "<group>"; };
+		286A7F561E83790B000AF690 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		286A7F631E837938000AF690 /* WTImageViewerAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WTImageViewerAsset.swift; sourceTree = "<group>"; };
+		286A7F641E837938000AF690 /* WTImageViewerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WTImageViewerCell.swift; sourceTree = "<group>"; };
+		286A7F651E837938000AF690 /* WTImageViewerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WTImageViewerController.swift; sourceTree = "<group>"; };
+		286A7F661E837938000AF690 /* WTSectorProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WTSectorProgressView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		286A7F291E83790B000AF690 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		286A7F421E83790B000AF690 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		286A7F4D1E83790B000AF690 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		286A7F231E83790B000AF690 = {
+			isa = PBXGroup;
+			children = (
+				286A7F2E1E83790B000AF690 /* WTImageViewerController */,
+				286A7F481E83790B000AF690 /* WTImageViewerControllerTests */,
+				286A7F531E83790B000AF690 /* WTImageViewerControllerUITests */,
+				286A7F2D1E83790B000AF690 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		286A7F2D1E83790B000AF690 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				286A7F2C1E83790B000AF690 /* WTImageViewerController.app */,
+				286A7F451E83790B000AF690 /* WTImageViewerControllerTests.xctest */,
+				286A7F501E83790B000AF690 /* WTImageViewerControllerUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		286A7F2E1E83790B000AF690 /* WTImageViewerController */ = {
+			isa = PBXGroup;
+			children = (
+				286A7F621E837938000AF690 /* Vendor */,
+				286A7F321E83790B000AF690 /* AppDelegate.h */,
+				286A7F331E83790B000AF690 /* AppDelegate.m */,
+				286A7F351E83790B000AF690 /* ViewController.h */,
+				286A7F361E83790B000AF690 /* ViewController.m */,
+				286A7F381E83790B000AF690 /* Main.storyboard */,
+				286A7F3B1E83790B000AF690 /* Assets.xcassets */,
+				286A7F3D1E83790B000AF690 /* LaunchScreen.storyboard */,
+				286A7F401E83790B000AF690 /* Info.plist */,
+				286A7F2F1E83790B000AF690 /* Supporting Files */,
+			);
+			path = WTImageViewerController;
+			sourceTree = "<group>";
+		};
+		286A7F2F1E83790B000AF690 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				286A7F301E83790B000AF690 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		286A7F481E83790B000AF690 /* WTImageViewerControllerTests */ = {
+			isa = PBXGroup;
+			children = (
+				286A7F491E83790B000AF690 /* WTImageViewerControllerTests.m */,
+				286A7F4B1E83790B000AF690 /* Info.plist */,
+			);
+			path = WTImageViewerControllerTests;
+			sourceTree = "<group>";
+		};
+		286A7F531E83790B000AF690 /* WTImageViewerControllerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				286A7F541E83790B000AF690 /* WTImageViewerControllerUITests.m */,
+				286A7F561E83790B000AF690 /* Info.plist */,
+			);
+			path = WTImageViewerControllerUITests;
+			sourceTree = "<group>";
+		};
+		286A7F621E837938000AF690 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				286A7F651E837938000AF690 /* WTImageViewerController.swift */,
+				286A7F641E837938000AF690 /* WTImageViewerCell.swift */,
+				286A7F631E837938000AF690 /* WTImageViewerAsset.swift */,
+				286A7F661E837938000AF690 /* WTSectorProgressView.swift */,
+			);
+			name = Vendor;
+			path = ../../Vendor;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		286A7F2B1E83790B000AF690 /* WTImageViewerController */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 286A7F591E83790B000AF690 /* Build configuration list for PBXNativeTarget "WTImageViewerController" */;
+			buildPhases = (
+				286A7F281E83790B000AF690 /* Sources */,
+				286A7F291E83790B000AF690 /* Frameworks */,
+				286A7F2A1E83790B000AF690 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WTImageViewerController;
+			productName = WTImageViewerController;
+			productReference = 286A7F2C1E83790B000AF690 /* WTImageViewerController.app */;
+			productType = "com.apple.product-type.application";
+		};
+		286A7F441E83790B000AF690 /* WTImageViewerControllerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 286A7F5C1E83790B000AF690 /* Build configuration list for PBXNativeTarget "WTImageViewerControllerTests" */;
+			buildPhases = (
+				286A7F411E83790B000AF690 /* Sources */,
+				286A7F421E83790B000AF690 /* Frameworks */,
+				286A7F431E83790B000AF690 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				286A7F471E83790B000AF690 /* PBXTargetDependency */,
+			);
+			name = WTImageViewerControllerTests;
+			productName = WTImageViewerControllerTests;
+			productReference = 286A7F451E83790B000AF690 /* WTImageViewerControllerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		286A7F4F1E83790B000AF690 /* WTImageViewerControllerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 286A7F5F1E83790B000AF690 /* Build configuration list for PBXNativeTarget "WTImageViewerControllerUITests" */;
+			buildPhases = (
+				286A7F4C1E83790B000AF690 /* Sources */,
+				286A7F4D1E83790B000AF690 /* Frameworks */,
+				286A7F4E1E83790B000AF690 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				286A7F521E83790B000AF690 /* PBXTargetDependency */,
+			);
+			name = WTImageViewerControllerUITests;
+			productName = WTImageViewerControllerUITests;
+			productReference = 286A7F501E83790B000AF690 /* WTImageViewerControllerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		286A7F241E83790B000AF690 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0820;
+				ORGANIZATIONNAME = WhatsTaste;
+				TargetAttributes = {
+					286A7F2B1E83790B000AF690 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = Y7456QC42Y;
+						ProvisioningStyle = Automatic;
+					};
+					286A7F441E83790B000AF690 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = Y7456QC42Y;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 286A7F2B1E83790B000AF690;
+					};
+					286A7F4F1E83790B000AF690 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = Y7456QC42Y;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 286A7F2B1E83790B000AF690;
+					};
+				};
+			};
+			buildConfigurationList = 286A7F271E83790B000AF690 /* Build configuration list for PBXProject "WTImageViewerController" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 286A7F231E83790B000AF690;
+			productRefGroup = 286A7F2D1E83790B000AF690 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				286A7F2B1E83790B000AF690 /* WTImageViewerController */,
+				286A7F441E83790B000AF690 /* WTImageViewerControllerTests */,
+				286A7F4F1E83790B000AF690 /* WTImageViewerControllerUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		286A7F2A1E83790B000AF690 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286A7F3F1E83790B000AF690 /* LaunchScreen.storyboard in Resources */,
+				286A7F3C1E83790B000AF690 /* Assets.xcassets in Resources */,
+				286A7F3A1E83790B000AF690 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		286A7F431E83790B000AF690 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		286A7F4E1E83790B000AF690 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		286A7F281E83790B000AF690 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286A7F6A1E837938000AF690 /* WTSectorProgressView.swift in Sources */,
+				286A7F681E837938000AF690 /* WTImageViewerCell.swift in Sources */,
+				286A7F371E83790B000AF690 /* ViewController.m in Sources */,
+				286A7F341E83790B000AF690 /* AppDelegate.m in Sources */,
+				286A7F311E83790B000AF690 /* main.m in Sources */,
+				286A7F691E837938000AF690 /* WTImageViewerController.swift in Sources */,
+				286A7F671E837938000AF690 /* WTImageViewerAsset.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		286A7F411E83790B000AF690 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286A7F4A1E83790B000AF690 /* WTImageViewerControllerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		286A7F4C1E83790B000AF690 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				286A7F551E83790B000AF690 /* WTImageViewerControllerUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		286A7F471E83790B000AF690 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 286A7F2B1E83790B000AF690 /* WTImageViewerController */;
+			targetProxy = 286A7F461E83790B000AF690 /* PBXContainerItemProxy */;
+		};
+		286A7F521E83790B000AF690 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 286A7F2B1E83790B000AF690 /* WTImageViewerController */;
+			targetProxy = 286A7F511E83790B000AF690 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		286A7F381E83790B000AF690 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				286A7F391E83790B000AF690 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		286A7F3D1E83790B000AF690 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				286A7F3E1E83790B000AF690 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		286A7F571E83790B000AF690 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		286A7F581E83790B000AF690 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		286A7F5A1E83790B000AF690 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = Y7456QC42Y;
+				INFOPLIST_FILE = WTImageViewerController/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.WhatsTaste.WTImageViewerController;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		286A7F5B1E83790B000AF690 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = Y7456QC42Y;
+				INFOPLIST_FILE = WTImageViewerController/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.WhatsTaste.WTImageViewerController;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		286A7F5D1E83790B000AF690 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = Y7456QC42Y;
+				INFOPLIST_FILE = WTImageViewerControllerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.WhatsTaste.WTImageViewerControllerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTImageViewerController.app/WTImageViewerController";
+			};
+			name = Debug;
+		};
+		286A7F5E1E83790B000AF690 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = Y7456QC42Y;
+				INFOPLIST_FILE = WTImageViewerControllerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.WhatsTaste.WTImageViewerControllerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WTImageViewerController.app/WTImageViewerController";
+			};
+			name = Release;
+		};
+		286A7F601E83790B000AF690 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = Y7456QC42Y;
+				INFOPLIST_FILE = WTImageViewerControllerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.WhatsTaste.WTImageViewerControllerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = WTImageViewerController;
+			};
+			name = Debug;
+		};
+		286A7F611E83790B000AF690 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = Y7456QC42Y;
+				INFOPLIST_FILE = WTImageViewerControllerUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.WhatsTaste.WTImageViewerControllerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = WTImageViewerController;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		286A7F271E83790B000AF690 /* Build configuration list for PBXProject "WTImageViewerController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				286A7F571E83790B000AF690 /* Debug */,
+				286A7F581E83790B000AF690 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		286A7F591E83790B000AF690 /* Build configuration list for PBXNativeTarget "WTImageViewerController" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				286A7F5A1E83790B000AF690 /* Debug */,
+				286A7F5B1E83790B000AF690 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		286A7F5C1E83790B000AF690 /* Build configuration list for PBXNativeTarget "WTImageViewerControllerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				286A7F5D1E83790B000AF690 /* Debug */,
+				286A7F5E1E83790B000AF690 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		286A7F5F1E83790B000AF690 /* Build configuration list for PBXNativeTarget "WTImageViewerControllerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				286A7F601E83790B000AF690 /* Debug */,
+				286A7F611E83790B000AF690 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 286A7F241E83790B000AF690 /* Project object */;
+}
