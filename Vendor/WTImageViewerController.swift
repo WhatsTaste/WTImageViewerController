@@ -8,8 +8,10 @@
 
 import UIKit
 
-public typealias WTImageViewerControllerDownloadingImageProgressHandler = (_ progress: CGFloat) -> Void
-public typealias WTImageViewerControllerDownloadingImageCompletionHandler = (_ image: UIImage?) -> Void
+public typealias WTImageViewerControllerImageHandler = (_ controller: WTImageViewerController, _ index: Int, _ url: URL) -> UIImage?
+public typealias WTImageViewerControllerDidFinishDownloadingImageHandler = (_ controller: WTImageViewerController, _ image: UIImage?, _ index: Int, _ url: URL) -> Void
+private typealias WTImageViewerControllerDownloadingImageProgressHandler = (_ progress: CGFloat) -> Void
+private typealias WTImageViewerControllerDownloadingImageCompletionHandler = (_ image: UIImage?) -> Void
 
 @objc public protocol WTImageViewerControllerDelegate: class {
     @objc optional func imageViewerController(_ controller: WTImageViewerController, imageAtIndex index: Int, url: URL) -> UIImage?
@@ -66,7 +68,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         } else {
             return
         }
-        if let index = index {
+        if index != 0 {
             collectionView.scrollToItem(at: IndexPath.init(item: index, section: 0), at: .left, animated: false)
         }
     }
@@ -110,6 +112,8 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         } else if asset.imageURL != nil {
             let url = URL(string: asset.imageURL!)!
             if let image = delegate?.imageViewerController?(self, imageAtIndex: indexPath.item, url: url) {
+                cell.contentImageView.image = image
+            } else if let image = imageHandler?(self, indexPath.item, url) {
                 cell.contentImageView.image = image
             } else {
                 if requestID == 0 {
@@ -202,6 +206,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
                 let image = UIImage(data: data)
                 completionHandler(image)
                 delegate?.imageViewerController?(self, didFinishDownloadingImage: image, index: indexs[downloadTask.taskIdentifier]!, url: urls[downloadTask.taskIdentifier]!)
+                didFinishDownloadingImageHandler?(self, image, indexs[downloadTask.taskIdentifier]!, urls[downloadTask.taskIdentifier]!)
                 urls[downloadTask.taskIdentifier] = nil
                 indexs[downloadTask.taskIdentifier] = nil
                 progressHandlers[downloadTask.taskIdentifier] = nil
@@ -241,7 +246,16 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
     // MARK: Properties
     
     weak public var delegate: WTImageViewerControllerDelegate?
-    public var index: Int?
+    public var imageHandler: WTImageViewerControllerImageHandler? // Ignored when delegate's image provided
+    public var didFinishDownloadingImageHandler: WTImageViewerControllerDidFinishDownloadingImageHandler?
+    public var index: Int = 0 {
+        didSet {
+            guard index < pageControl.numberOfPages else {
+                return
+            }
+            pageControl.currentPage = index
+        }
+    }
     public var duration: TimeInterval = WTImageViewerControllerAnimationDuration
     public var image: UIImage?
     public var contentMode: UIViewContentMode = .scaleToFill

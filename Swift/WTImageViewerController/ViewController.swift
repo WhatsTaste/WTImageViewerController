@@ -25,16 +25,16 @@ class ViewController: UIViewController, WTImageViewerControllerDelegate {
     
     // MARK: WTImageViewerControllerDelegate
     
-    func imageViewerController(_ controller: WTImageViewerController, imageAtIndex index: Int, url: URL) -> UIImage? {
-//        print(#file + " [\(#line)]" + " \(#function): " + "\(index)" + ": \(url)")
-        return images[url]
-    }
-    
-    func imageViewerController(_ controller: WTImageViewerController, didFinishDownloadingImage image: UIImage?, index: Int, url: URL) {
-//        print(#file + " [\(#line)]" + " \(#function): " + "\(index)")
-        imageView.image = image
-        images[url] = image
-    }
+//    func imageViewerController(_ controller: WTImageViewerController, imageAtIndex index: Int, url: URL) -> UIImage? {
+////        print(#file + " [\(#line)]" + " \(#function): " + "\(index)" + ": \(url)")
+//        return images[url]
+//    }
+//    
+//    func imageViewerController(_ controller: WTImageViewerController, didFinishDownloadingImage image: UIImage?, index: Int, url: URL) {
+////        print(#file + " [\(#line)]" + " \(#function): " + "\(index)" + ": \(url)")
+//        imageView.image = image
+//        images[url] = image
+//    }
     
     // MARK: Private
     
@@ -49,6 +49,15 @@ class ViewController: UIViewController, WTImageViewerControllerDelegate {
         imageViewerController.image = imageView.image
         imageViewerController.contentMode = imageView.contentMode
         imageViewerController.fromView = imageView
+        imageViewerController.imageHandler = { [weak self] (_, index, url) in
+            print(#file + " [\(#line)]" + " \(#function): " + "\(index)" + ": \(url)")
+            return self?.images[url]
+        }
+        imageViewerController.didFinishDownloadingImageHandler = { [weak self] (_, image, index, url) in
+            print(#file + " [\(#line)]" + " \(#function): " + "\(index)" + ": \(url)")
+            self?.imageView.image = image
+            self?.images[url] = image
+        }
         present(imageViewerController, animated: true, completion: nil)
     }
 

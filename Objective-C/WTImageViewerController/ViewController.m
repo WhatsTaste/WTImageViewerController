@@ -35,16 +35,16 @@
 
 #pragma mark - WTImageViewerControllerDelegate
 
-- (UIImage *)imageViewerController:(WTImageViewerController *)controller imageAtIndex:(NSInteger)index url:(NSURL *)url {
-//    NSLog(@"%s %ld %@", __PRETTY_FUNCTION__, (long)index, url);
-    return self.images[url];
-}
-
-- (void)imageViewerController:(WTImageViewerController *)controller didFinishDownloadingImage:(UIImage *)image index:(NSInteger)index url:(NSURL *)url {
-//    NSLog(@"%s %ld %@", __PRETTY_FUNCTION__, (long)index, url);
-    self.imageView.image = image;
-    self.images[url] = image;
-}
+//- (UIImage *)imageViewerController:(WTImageViewerController *)controller imageAtIndex:(NSInteger)index url:(NSURL *)url {
+////    NSLog(@"%s %ld %@", __PRETTY_FUNCTION__, (long)index, url);
+//    return self.images[url];
+//}
+//
+//- (void)imageViewerController:(WTImageViewerController *)controller didFinishDownloadingImage:(UIImage *)image index:(NSInteger)index url:(NSURL *)url {
+////    NSLog(@"%s %ld %@", __PRETTY_FUNCTION__, (long)index, url);
+//    self.imageView.image = image;
+//    self.images[url] = image;
+//}
 
 #pragma mark - Private
 
@@ -59,6 +59,18 @@
     imageViewerController.image = self.imageView.image;
     imageViewerController.contentMode = self.imageView.contentMode;
     imageViewerController.fromView = self.imageView;
+    __weak __typeof(self) weakSelf = self;
+    imageViewerController.imageHandler = ^(WTImageViewerController * _Nonnull controller, NSInteger index, NSURL * _Nonnull url) {
+//        NSLog(@"%s %ld %@", __PRETTY_FUNCTION__, (long)index, url);
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        return strongSelf.images[url];
+    };
+    imageViewerController.didFinishDownloadingImageHandler = ^(WTImageViewerController * _Nonnull controller, UIImage * _Nullable image, NSInteger index, NSURL * _Nonnull url) {
+//        NSLog(@"%s %ld %@", __PRETTY_FUNCTION__, (long)index, url);
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        strongSelf.imageView.image = image;
+        strongSelf.images[url] = image;
+    };
     [self presentViewController:imageViewerController animated:YES completion:nil];
 }
 
