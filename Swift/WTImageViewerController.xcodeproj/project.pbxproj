@@ -17,7 +17,6 @@
 		28358D401E824836007CE440 /* WTImageViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28358D3F1E824835007CE440 /* WTImageViewerController.swift */; };
 		28358D421E82485B007CE440 /* WTImageViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28358D411E82485B007CE440 /* WTImageViewerCell.swift */; };
 		28358D441E8248A9007CE440 /* WTImageViewerAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28358D431E8248A9007CE440 /* WTImageViewerAsset.swift */; };
-		28358D4C1E826FBB007CE440 /* WTSectorProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28358D4B1E826FBB007CE440 /* WTSectorProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,7 +53,6 @@
 		28358D3F1E824835007CE440 /* WTImageViewerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WTImageViewerController.swift; sourceTree = "<group>"; };
 		28358D411E82485B007CE440 /* WTImageViewerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WTImageViewerCell.swift; sourceTree = "<group>"; };
 		28358D431E8248A9007CE440 /* WTImageViewerAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WTImageViewerAsset.swift; sourceTree = "<group>"; };
-		28358D4B1E826FBB007CE440 /* WTSectorProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WTSectorProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,7 +138,6 @@
 				28358D3F1E824835007CE440 /* WTImageViewerController.swift */,
 				28358D411E82485B007CE440 /* WTImageViewerCell.swift */,
 				28358D431E8248A9007CE440 /* WTImageViewerAsset.swift */,
-				28358D4B1E826FBB007CE440 /* WTSectorProgressView.swift */,
 			);
 			name = Vendor;
 			path = ../../Vendor;
@@ -285,7 +282,6 @@
 			files = (
 				28358D441E8248A9007CE440 /* WTImageViewerAsset.swift in Sources */,
 				28358D131E824791007CE440 /* ViewController.swift in Sources */,
-				28358D4C1E826FBB007CE440 /* WTSectorProgressView.swift in Sources */,
 				28358D401E824836007CE440 /* WTImageViewerController.swift in Sources */,
 				28358D421E82485B007CE440 /* WTImageViewerCell.swift in Sources */,
 				28358D111E824791007CE440 /* AppDelegate.swift in Sources */,

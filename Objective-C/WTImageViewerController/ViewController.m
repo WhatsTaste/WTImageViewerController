@@ -10,15 +10,10 @@
 
 #import "WTImageViewerController-Swift.h"
 
-typedef void(^ProgressHandler)(CGFloat progress);
-typedef void(^CompletionHandler)(UIImage * _Nullable image);
-
-@interface ViewController () <WTImageViewerControllerDelegate, NSURLSessionDownloadDelegate>
+@interface ViewController () <WTImageViewerControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (strong, nonatomic) NSURLSession *session;
-@property (strong, nonatomic) NSMutableDictionary<NSNumber *, ProgressHandler> *progresses;
-@property (strong, nonatomic) NSMutableDictionary<NSNumber *, CompletionHandler> *completions;
+@property (strong, nonatomic) NSMutableDictionary<NSURL *, UIImage *> *images;
 
 @end
 
@@ -40,39 +35,15 @@ typedef void(^CompletionHandler)(UIImage * _Nullable image);
 
 #pragma mark - WTImageViewerControllerDelegate
 
-- (NSInteger)imageViewerController:(WTImageViewerController *)controller downloadingImageForURL:(NSURL *)url progressHandler:(void (^)(CGFloat))progressHandler completionHandler:(void (^)(UIImage * _Nullable))completionHandler {
-    NSURLSessionDownloadTask *downloadTask = [self.session downloadTaskWithURL:url];
-    self.progresses[@(downloadTask.taskIdentifier)] = progressHandler;
-    self.completions[@(downloadTask.taskIdentifier)] = completionHandler;
-//    NSLog(@"%s%@", __PRETTY_FUNCTION__, downloadTask);
-    [downloadTask resume];
-    return downloadTask.taskIdentifier;
+- (UIImage *)imageViewerController:(WTImageViewerController *)controller imageAtIndex:(NSInteger)index url:(NSURL *)url {
+//    NSLog(@"%s %ld %@", __PRETTY_FUNCTION__, (long)index, url);
+    return self.images[url];
 }
 
-#pragma mark - NSURLSessionDownloadDelegate
-
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location {
-    CompletionHandler completion = self.completions[@(downloadTask.taskIdentifier)];
-    if (completion) {
-        UIImage *image = nil;
-        @try {
-            NSData *data = [NSData dataWithContentsOfURL:location];
-            image = [UIImage imageWithData:data];
-        } @catch (NSException *exception) {
-            NSLog(@"%s%@", __PRETTY_FUNCTION__, exception.reason);
-        } @finally {
-            completion(image);
-        }
-    }
-}
-
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
-    ProgressHandler progress = self.progresses[@(downloadTask.taskIdentifier)];
-    if (progress) {
-        CGFloat progressValue = 1.0 * totalBytesWritten / totalBytesExpectedToWrite;
-//        NSLog(@"%s%f", __PRETTY_FUNCTION__, progressValue);
-        progress(progressValue);
-    }
+- (void)imageViewerController:(WTImageViewerController *)controller didFinishDownloadingImage:(UIImage *)image index:(NSInteger)index url:(NSURL *)url {
+//    NSLog(@"%s %ld %@", __PRETTY_FUNCTION__, (long)index, url);
+    self.imageView.image = image;
+    self.images[url] = image;
 }
 
 #pragma mark - Private
@@ -93,25 +64,11 @@ typedef void(^CompletionHandler)(UIImage * _Nullable image);
 
 #pragma mark - Properties
 
-- (NSURLSession *)session {
-    if (_session == nil) {
-        _session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:self delegateQueue:[NSOperationQueue mainQueue]];
+- (NSMutableDictionary<NSURL *,UIImage *> *)images {
+    if (_images == nil) {
+        _images = [NSMutableDictionary dictionary];
     }
-    return _session;
-}
-
-- (NSMutableDictionary<NSNumber *,ProgressHandler> *)progresses {
-    if (_progresses == nil) {
-        _progresses = [NSMutableDictionary dictionary];
-    }
-    return _progresses;
-}
-
-- (NSMutableDictionary<NSNumber *,CompletionHandler> *)completions {
-    if (_completions == nil) {
-        _completions = [NSMutableDictionary dictionary];
-    }
-    return _completions;
+    return _images;
 }
 
 @end

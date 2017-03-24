@@ -12,7 +12,8 @@ public typealias WTImageViewerControllerDownloadingImageProgressHandler = (_ pro
 public typealias WTImageViewerControllerDownloadingImageCompletionHandler = (_ image: UIImage?) -> Void
 
 @objc public protocol WTImageViewerControllerDelegate: class {
-    @objc optional func imageViewerController(_ controller: WTImageViewerController, downloadingImageForURL url: URL, progressHandler: WTImageViewerControllerDownloadingImageProgressHandler?, completionHandler: @escaping WTImageViewerControllerDownloadingImageCompletionHandler) -> Int
+    @objc optional func imageViewerController(_ controller: WTImageViewerController, imageAtIndex index: Int, url: URL) -> UIImage?
+    @objc optional func imageViewerController(_ controller: WTImageViewerController, didFinishDownloadingImage image: UIImage?, index: Int, url: URL) -> Void
 }
 
 public let WTImageViewerControllerMargin: CGFloat = 10
@@ -20,7 +21,7 @@ private let WTImageViewerControllerAnimationDuration: TimeInterval = 0.2
 private let reuseIdentifier = "Cell"
 private let controlsViewHeight:CGFloat = 44
 
-open class WTImageViewerController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate {
+open class WTImageViewerController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, URLSessionDownloadDelegate {
 
     public convenience init(assets: [WTImageViewerAsset]) {
         self.init(nibName: nil, bundle: nil)
@@ -97,7 +98,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         cell.singleTapHandler = { [weak self] in
             self?.presentingViewController?.dismiss(animated: true, completion: nil)
         }
-        var requestID = self.requestIDs[indexPath.item] ?? 0
+        let requestID = self.requestIDs[indexPath.item] ?? 0
         let progress = progresses[indexPath.item] ?? 0
 //        print(#function + ":\(indexPath.item) Using:" + "\(progress)")
         cell.contentButton.isHidden = !(failedFlags[indexPath.item] ?? false)
@@ -107,20 +108,30 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         if let image = asset.image {
             cell.contentImageView.image = image
         } else if asset.imageURL != nil {
-            if requestID == 0 {
-                let request = {
-                    requestID = self.delegate?.imageViewerController?(self, downloadingImageForURL: URL(string: asset.imageURL!)!, progressHandler: { [weak self, weak cell] (progress) in
-                        guard self != nil else {
-                            return
+            let url = URL(string: asset.imageURL!)!
+            if let image = delegate?.imageViewerController?(self, imageAtIndex: indexPath.item, url: url) {
+                cell.contentImageView.image = image
+            } else {
+                if requestID == 0 {
+                    let request = {
+                        let downloadTask: URLSessionDownloadTask = self.session.downloadTask(with: url)
+                        downloadTask.resume()
+                        self.requestIDs[indexPath.item] = downloadTask.taskIdentifier
+                        self.urls[downloadTask.taskIdentifier] = url
+                        self.indexs[downloadTask.taskIdentifier] = indexPath.item
+                        self.progressHandlers[downloadTask.taskIdentifier] = { [weak self, weak cell] (progress) in
+                            guard self != nil else {
+                                return
+                            }
+                            if cell?.index == indexPath.item {
+                                let progressValue = CGFloat(max(progress, 0))
+                                //                            print(#function + ":\(indexPath.item) Downloading:" + "\(progressValue)")
+                                cell?.progressView.isHidden = false
+                                cell?.progressView.progress = progressValue
+                                self?.progresses[indexPath.item] = progressValue
+                            }
                         }
-                        if cell?.index == indexPath.item {
-                            let progressValue = CGFloat(max(progress, 0))
-//                            print(#function + ":\(indexPath.item) Downloading:" + "\(progressValue)")
-                            cell?.progressView.isHidden = false
-                            cell?.progressView.progress = progressValue
-                            self?.progresses[indexPath.item] = progressValue
-                        }
-                        }, completionHandler: { [weak self, weak cell] (image) in
+                        self.completionHandlers[downloadTask.taskIdentifier] = { [weak self, weak cell] (image) in
                             guard self != nil else {
                                 return
                             }
@@ -130,7 +141,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
                                 self?.progresses[indexPath.item] = nil
                                 return
                             }
-//                            print(#function + ":\(indexPath.item) Downloading ends with image size" + "\(image!.size)")
+                            //                        print(#function + ":\(indexPath.item) Downloading ends with image size" + "\(image!.size)")
                             self?.requestIDs[indexPath.item] = 0
                             if cell?.index == indexPath.item {
                                 cell?.contentImageView.image = image
@@ -138,15 +149,15 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
                                 self?.failedFlags[indexPath.item] = nil
                                 self?.progresses[indexPath.item] = nil
                             }
-                    }) ?? 0
-                    self.requestIDs[indexPath.item] = requestID
-                }
-                
-                cell.contentButtonHandler = { (_) in
+                        }
+                    }
+                    
+                    cell.contentButtonHandler = { (_) in
+                        request()
+                    }
+                    
                     request()
                 }
-                
-                request()
             }
         }
         cell.contentButton.isHidden = true
@@ -178,6 +189,34 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
             let currentPage = indexPath.item
 //            print(#function + " currentPage: \(currentPage)")
             pageControl.currentPage = currentPage
+        }
+    }
+    
+    // MARK: URLSessionDownloadDelegate
+    
+    public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
+//        print(#file + " [\(#line)]" + " \(#function): " + " downloadTask：\(downloadTask)" + " location：\(location)")
+        if let completionHandler = completionHandlers[downloadTask.taskIdentifier] {
+            do {
+                let data = try Data.init(contentsOf: location)
+                let image = UIImage(data: data)
+                completionHandler(image)
+                delegate?.imageViewerController?(self, didFinishDownloadingImage: image, index: indexs[downloadTask.taskIdentifier]!, url: urls[downloadTask.taskIdentifier]!)
+                urls[downloadTask.taskIdentifier] = nil
+                indexs[downloadTask.taskIdentifier] = nil
+                progressHandlers[downloadTask.taskIdentifier] = nil
+                completionHandlers[downloadTask.taskIdentifier] = nil
+            } catch {
+                print(#file + " [\(#line)]" + " \(#function): " + "\(error)")
+            }
+        }
+    }
+    
+    public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
+        if let progressHandler = progressHandlers[downloadTask.taskIdentifier] {
+            let progress = CGFloat(totalBytesWritten) / CGFloat(totalBytesExpectedToWrite)
+//            print(#file + " [\(#line)]" + " \(#function): " + "\(progress)")
+            progressHandler(progress)
         }
     }
     
@@ -237,6 +276,26 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         return dictionry
     }()
     private var progresses = [Int: CGFloat]()
+    lazy private var session: URLSession = {
+        let sesstion = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
+        return sesstion
+    }()
+    lazy private var indexs: [Int: Int] = {
+        let dictionry = [Int: Int]()
+        return dictionry
+    }()
+    lazy private var urls: [Int: URL] = {
+        let dictionry = [Int: URL]()
+        return dictionry
+    }()
+    lazy private var progressHandlers: [Int: WTImageViewerControllerDownloadingImageProgressHandler] = {
+        let dictionry = [Int: WTImageViewerControllerDownloadingImageProgressHandler]()
+        return dictionry
+    }()
+    lazy private var completionHandlers: [Int: WTImageViewerControllerDownloadingImageCompletionHandler] = {
+        let dictionry = [Int: WTImageViewerControllerDownloadingImageCompletionHandler]()
+        return dictionry
+    }()
     private var shouldScrollToCurrentIndex = true
     
     lazy private var collectionView: UICollectionView = {

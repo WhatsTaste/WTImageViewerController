@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, WTImageViewerControllerDelegate, URLSessionDownloadDelegate {
+class ViewController: UIViewController, WTImageViewerControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,37 +25,15 @@ class ViewController: UIViewController, WTImageViewerControllerDelegate, URLSess
     
     // MARK: WTImageViewerControllerDelegate
     
-    func imageViewerController(_ controller: WTImageViewerController, downloadingImageForURL url: URL, progressHandler: WTImageViewerControllerDownloadingImageProgressHandler?, completionHandler: @escaping WTImageViewerControllerDownloadingImageCompletionHandler) -> Int {
-        let downloadTask: URLSessionDownloadTask = session.downloadTask(with: url)
-        progresses[downloadTask.taskIdentifier] = progressHandler
-        completions[downloadTask.taskIdentifier] = completionHandler
-//        print(#function + " downloadTask：\(downloadTask)")
-        downloadTask.resume()
-        return downloadTask.taskIdentifier
-    }
-
-    // MARK: URLSessionDownloadDelegate
-    
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-//        print(#function + " downloadTask：\(downloadTask)" + " location：\(location)")
-        if let completion = completions[downloadTask.taskIdentifier] {
-            do {
-                let data = try Data.init(contentsOf: location)
-                let image = UIImage(data: data)
-                completion(image)
-            } catch {
-                print(error)
-                completion(nil)
-            }
-        }
+    func imageViewerController(_ controller: WTImageViewerController, imageAtIndex index: Int, url: URL) -> UIImage? {
+//        print(#file + " [\(#line)]" + " \(#function): " + "\(index)" + ": \(url)")
+        return images[url]
     }
     
-    func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didWriteData bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64) {
-        if let progress = progresses[downloadTask.taskIdentifier] {
-            let progressValue = CGFloat(totalBytesWritten) / CGFloat(totalBytesExpectedToWrite)
-//            print(#function + "\(progressValue)")
-            progress(progressValue)
-        }
+    func imageViewerController(_ controller: WTImageViewerController, didFinishDownloadingImage image: UIImage?, index: Int, url: URL) {
+//        print(#file + " [\(#line)]" + " \(#function): " + "\(index)")
+        imageView.image = image
+        images[url] = image
     }
     
     // MARK: Private
@@ -77,13 +55,9 @@ class ViewController: UIViewController, WTImageViewerControllerDelegate, URLSess
     // MARK: Properties
     
     @IBOutlet weak var imageView: UIImageView!
-    
-    lazy private var session: URLSession = {
-        let sesstion = URLSession(configuration: URLSessionConfiguration.default, delegate: self, delegateQueue: OperationQueue.main)
-        return sesstion
+    lazy private var images: [URL: UIImage] = {
+        let dictionry = [URL: UIImage]()
+        return dictionry
     }()
-    
-    private var progresses = [Int: WTImageViewerControllerDownloadingImageProgressHandler]()
-    private var completions = [Int: WTImageViewerControllerDownloadingImageCompletionHandler]()
 }
 
