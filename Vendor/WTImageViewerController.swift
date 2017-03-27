@@ -397,8 +397,7 @@ fileprivate class WTImageViewerControllerTransitioning: NSObject, UIViewControll
         if mode == .present {
             fromView?.alpha = 0
             let viewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
-            viewController!.view.layoutIfNeeded()
-            
+//            print(#file + " [\(#line)]" + " \(#function): " + "\(transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from))")
             maskView.alpha = 0
             maskView.frame = viewController!.view.bounds
             imageView.frame = initialFrame
@@ -411,13 +410,13 @@ fileprivate class WTImageViewerControllerTransitioning: NSObject, UIViewControll
                 imageView.removeFromSuperview()
                 containerView.addSubview(viewController!.view)
                 transitionContext.completeTransition(true)
+                transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)?.setNeedsStatusBarAppearanceUpdate()
             })
         }
         
         if mode == .dismiss {
             let viewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
-            viewController!.view.removeFromSuperview()
-            
+//            print(#file + " [\(#line)]" + " \(#function): " + "\(transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to))")
             maskView.alpha = 1
             maskView.frame = viewController!.view.bounds
             imageView.frame = finalFrame
@@ -430,6 +429,7 @@ fileprivate class WTImageViewerControllerTransitioning: NSObject, UIViewControll
                 viewController!.view.removeFromSuperview()
                 self.fromView?.alpha = 1
                 transitionContext.completeTransition(true)
+                transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)?.setNeedsStatusBarAppearanceUpdate()
             })
         }
     }
