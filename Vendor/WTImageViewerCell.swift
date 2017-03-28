@@ -171,7 +171,7 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
     }()
     
     lazy public private(set) var contentButton: UIButton = {
-        let button = UIButton(type: .custom)
+        let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = UIColor.clear
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -223,17 +223,6 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
     weak var contentImageViewRightConstraint: NSLayoutConstraint!
     weak var contentImageViewTopConstraint: NSLayoutConstraint!
     weak var contentImageViewBottomConstraint: NSLayoutConstraint!
-    
-    lazy private var timer: DispatchSourceTimer = {
-        let timer = DispatchSource.makeTimerSource(queue: DispatchQueue.main)
-        timer.scheduleRepeating(deadline: .now(), interval: .seconds(1))
-        timer.setEventHandler { [weak self] in
-            self?.progressView.isHidden = false
-            let progress = CGFloat(arc4random_uniform(10)) / 10
-            self?.progressView.progress = max(progress, 0.02)
-        }
-        return timer
-    }()
 }
 
 typealias WTImageViewerCellImageViewHandler = (_ image: UIImage?) -> Void

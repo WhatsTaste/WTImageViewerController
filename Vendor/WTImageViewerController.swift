@@ -104,7 +104,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         let progress = progresses[indexPath.item] ?? 0
 //        print(#function + ":\(indexPath.item) Using:" + "\(progress)")
         cell.contentButton.isHidden = !(failedFlags[indexPath.item] ?? false)
-        cell.progressView.isHidden = !(requestID != 0)
+        cell.progressView.isHidden = requestID == 0
         cell.progressView.progress = progress
         cell.contentImageView.contentMode = contentMode
         if let image = asset.image {
@@ -127,31 +127,30 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
                             guard self != nil else {
                                 return
                             }
+                            let progressValue = CGFloat(max(progress, 0))
+//                            print(#function + ":\(indexPath.item) Downloading:" + "\(progressValue)")
+                            self?.progresses[indexPath.item] = progressValue
                             if cell?.index == indexPath.item {
-                                let progressValue = CGFloat(max(progress, 0))
-                                //                            print(#function + ":\(indexPath.item) Downloading:" + "\(progressValue)")
                                 cell?.progressView.isHidden = false
                                 cell?.progressView.progress = progressValue
-                                self?.progresses[indexPath.item] = progressValue
                             }
                         }
                         self.completionHandlers[downloadTask.taskIdentifier] = { [weak self, weak cell] (image) in
+//                            print(#function + ":\(indexPath.item) Downloading ends with image size: " + "\(String(describing: image?.size))")
                             guard self != nil else {
                                 return
                             }
-                            guard image != nil else {
-                                cell?.contentButton.isHidden = false
-                                self?.failedFlags[indexPath.item] = true
-                                self?.progresses[indexPath.item] = nil
-                                return
-                            }
-                            //                        print(#function + ":\(indexPath.item) Downloading ends with image size" + "\(image!.size)")
                             self?.requestIDs[indexPath.item] = 0
-                            if cell?.index == indexPath.item {
-                                cell?.contentImageView.image = image
-                                cell?.progressView.isHidden = true
+                            self?.progresses[indexPath.item] = nil
+                            if image == nil {
                                 self?.failedFlags[indexPath.item] = nil
-                                self?.progresses[indexPath.item] = nil
+                            } else {
+                                self?.failedFlags[indexPath.item] = true
+                            }
+                            if cell?.index == indexPath.item {
+                                cell?.progressView.isHidden = true
+                                cell?.contentButton.isHidden = !(image == nil)
+                                cell?.contentImageView.image = image
                             }
                         }
                     }
