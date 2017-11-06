@@ -9,12 +9,12 @@
 import UIKit
 
 public class WTImageViewerAsset: NSObject {
-    public convenience init(image: UIImage) {
+    @objc public convenience init(image: UIImage) {
         self.init()
         self.image = image
     }
     
-    public convenience init(imageURL: String) {
+    @objc public convenience init(imageURL: String) {
         self.init()
         self.imageURL = imageURL
     }

@@ -74,7 +74,7 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
         }
     }
     
-    // MARK: UIGestureRecognizerDelegate
+    // MARK: - UIGestureRecognizerDelegate
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let location = touch.location(in: contentView)
@@ -83,7 +83,7 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
         return contentButton.isHidden || !inside
     }
     
-    // MARK: Private
+    // MARK: - Private
     
     @objc private func singleTapAction(_ sender: UITapGestureRecognizer) {
         singleTapHandler?()
@@ -129,7 +129,7 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
         }
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     public var index: Int!
     public var singleTapHandler: WTImageViewerCellTapHandler?
@@ -141,16 +141,19 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
         imageView.backgroundColor = UIColor.clear
         imageView.contentMode = .scaleAspectFit
         imageView.imageDidSetHandler = { [weak self] (image) in
-            if self == nil {
+            guard self != nil else {
                 return
             }
-            
+            guard let someImage = image else {
+                return
+            }
             let bounds = self!.contentView.bounds.insetBy(dx: WTImageViewerControllerMargin, dy: 0)
-            let imageSize = image?.size ?? CGSize.zero
-            var scale: CGFloat = min(bounds.width / imageSize.width, bounds.height / imageSize.height)
-            scale = min(scale, 1)
-            let scaledImageSize = CGSize(width: floor(imageSize.width * scale), height: floor(imageSize.height * scale))
+            let imageSize = someImage.size
+            let scale: CGFloat = bounds.width / imageSize.width
+            let factor: CGFloat = imageSize.height / imageSize.width
+            let scaledImageSize = CGSize(width: bounds.width, height: floor(bounds.width * factor))
             self!.contentScrollView.minimumZoomScale = scale
+            self!.contentScrollView.maximumZoomScale = self!.contentScrollView.minimumZoomScale * 3
             self!.contentScrollView.zoomScale = self!.contentScrollView.minimumZoomScale
             self!.contentScrollView.contentSize = scaledImageSize
             
@@ -200,7 +203,6 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
         scrollView.scrollsToTop = false
         scrollView.delaysContentTouches = false
         scrollView.canCancelContentTouches = true
-        scrollView.maximumZoomScale = 2
         scrollView.delegate = self
         return scrollView
     }()
@@ -234,7 +236,7 @@ class WTImageViewerCellImageView: UIImageView {
         }
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     var imageDidSetHandler: WTImageViewerCellImageViewHandler?
 }
@@ -275,7 +277,7 @@ public class WTImageViewerCellSectorProgressView: UIView {
         path.fill()
     }
     
-    // MARK: Public
+    // MARK: - Public
     
     public func setProgress(_ progress: CGFloat, animated: Bool) {
         if animated {
@@ -290,7 +292,7 @@ public class WTImageViewerCellSectorProgressView: UIView {
         }
     }
     
-    // MARK: Private
+    // MARK: - Private
     
     @objc private func changeProgress() {
         guard let target = targetProgress else {
@@ -305,7 +307,7 @@ public class WTImageViewerCellSectorProgressView: UIView {
         }
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     public var progress: CGFloat = 0 {
         didSet {

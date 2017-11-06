@@ -25,7 +25,7 @@ private let controlsViewHeight:CGFloat = 44
 
 open class WTImageViewerController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, URLSessionDownloadDelegate {
 
-    public convenience init(assets: [WTImageViewerAsset]) {
+    @objc public convenience init(assets: [WTImageViewerAsset]) {
         self.init(nibName: nil, bundle: nil)
         self.transitioningDelegate = self
         self.modalPresentationStyle = .custom
@@ -36,7 +36,6 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        
         edgesForExtendedLayout = .all
         automaticallyAdjustsScrollViewInsets = false
         
@@ -51,7 +50,11 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         
         view.addConstraint(NSLayoutConstraint.init(item: pageControl, attribute: .left, relatedBy: .equal, toItem: view, attribute: .left, multiplier: 1, constant: 0))
         view.addConstraint(NSLayoutConstraint.init(item: view, attribute: .right, relatedBy: .equal, toItem: pageControl, attribute: .right, multiplier: 1, constant: 0))
-        view.addConstraint(NSLayoutConstraint.init(item: view, attribute: .bottom, relatedBy: .equal, toItem: pageControl, attribute: .bottom, multiplier: 1, constant: 0))
+        if #available(iOS 11.0, *) {
+            view.addConstraint(NSLayoutConstraint.init(item: view.safeAreaLayoutGuide, attribute: .bottom, relatedBy: .equal, toItem: pageControl, attribute: .bottom, multiplier: 1, constant: 0))
+        } else {
+            view.addConstraint(NSLayoutConstraint.init(item: view, attribute: .bottom, relatedBy: .equal, toItem: pageControl, attribute: .bottom, multiplier: 1, constant: 0))
+        }
         pageControl.addConstraint(NSLayoutConstraint.init(item: pageControl, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: controlsViewHeight))
     }
 
@@ -84,7 +87,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         return true
     }
 
-    // MARK: UICollectionViewDataSource
+    // MARK: - UICollectionViewDataSource
 
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
@@ -167,7 +170,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         return cell
     }
 
-    // MARK: UICollectionViewDelegate
+    // MARK: - UICollectionViewDelegate
     
     open func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let someCell = cell as? WTImageViewerCell {
@@ -175,7 +178,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         }
     }
     
-    // MARK: UICollectionViewDelegateFlowLayout
+    // MARK: - UICollectionViewDelegateFlowLayout
     
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = floor(collectionView.bounds.width)
@@ -185,7 +188,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         return size
     }
     
-    // MARK: UIScrollViewDelegate
+    // MARK: - UIScrollViewDelegate
     
     open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if let indexPath = currentIndexPath() {
@@ -195,7 +198,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         }
     }
     
-    // MARK: URLSessionDownloadDelegate
+    // MARK: - URLSessionDownloadDelegate
     
     public func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
 //        print(#file + " [\(#line)]" + " \(#function): " + " downloadTask：\(downloadTask)" + " location：\(location)")
@@ -224,7 +227,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         }
     }
     
-    // MARK: Private
+    // MARK: - Private
     
     func currentIndexPath() -> IndexPath? {
         let visibleRect = CGRect(origin: collectionView.contentOffset, size: collectionView.bounds.size)
@@ -242,12 +245,12 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         }
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
-    weak public var delegate: WTImageViewerControllerDelegate?
-    public var imageHandler: WTImageViewerControllerImageHandler? // Ignored when delegate's image provided
-    public var didFinishDownloadingImageHandler: WTImageViewerControllerDidFinishDownloadingImageHandler?
-    public var index: Int = 0 {
+    @objc weak public var delegate: WTImageViewerControllerDelegate?
+    @objc public var imageHandler: WTImageViewerControllerImageHandler? // Ignored when delegate's image provided
+    @objc public var didFinishDownloadingImageHandler: WTImageViewerControllerDidFinishDownloadingImageHandler?
+    @objc public var index: Int = 0 {
         didSet {
             guard index < pageControl.numberOfPages else {
                 return
@@ -255,10 +258,10 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
             pageControl.currentPage = index
         }
     }
-    public var duration: TimeInterval = WTImageViewerControllerAnimationDuration
-    public var image: UIImage?
-    public var contentMode: UIViewContentMode = .scaleToFill
-    public weak var fromView : UIView? {
+    @objc public var duration: TimeInterval = WTImageViewerControllerAnimationDuration
+    @objc public var image: UIImage?
+    @objc public var contentMode: UIViewContentMode = .scaleToFill
+    @objc public weak var fromView : UIView? {
         didSet {
             if let someFromView = fromView, let somesSuperview = someFromView.superview {
                 initialFrame = somesSuperview.convert(someFromView.frame, to: nil)
@@ -339,7 +342,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
     }()
 }
 
-// MARK: UIViewControllerTransitioningDelegate
+// MARK: - UIViewControllerTransitioningDelegate
 
 extension WTImageViewerController: UIViewControllerTransitioningDelegate {
     public func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -377,7 +380,7 @@ fileprivate class WTImageViewerControllerTransitioning: NSObject, UIViewControll
         self.mode = mode
     }
     
-    // MARK: UIViewControllerAnimatedTransitioning
+    // MARK: - UIViewControllerAnimatedTransitioning
     
     fileprivate func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return duration
@@ -433,7 +436,7 @@ fileprivate class WTImageViewerControllerTransitioning: NSObject, UIViewControll
         }
     }
     
-    // MARK: Properties
+    // MARK: - Properties
     
     var mode: WTImageViewerControllerTransitioningMode!
     var duration: TimeInterval = WTImageViewerControllerAnimationDuration
