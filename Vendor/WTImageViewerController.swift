@@ -273,7 +273,7 @@ open class WTImageViewerController: UIViewController, UICollectionViewDataSource
         get {
             if let indexPath = currentIndexPath() {
                 let cell = collectionView.cellForItem(at: indexPath) as! WTImageViewerCell
-                return cell.contentImageView.frame
+                return view.window!.convert(cell.contentImageView.frame, from: cell.contentImageView.superview)
             } else {
                 let scale = min(view.bounds.width / initialFrame.width, view.bounds.height / initialFrame.height)
                 let size = CGSize(width: initialFrame.width * scale, height: initialFrame.height * scale)
@@ -445,4 +445,12 @@ fileprivate class WTImageViewerControllerTransitioning: NSObject, UIViewControll
     weak var fromView : UIView?
     var initialFrame: CGRect = .zero
     var finalFrame: CGRect = .zero
+}
+
+// MARK: - Localization
+
+public extension NSObject {
+    func WTIVLocalizedString(_ key: String) -> String {
+        return NSLocalizedString(key, tableName: "WTImageViewerController", bundle: Bundle(path: Bundle.main.path(forResource: "WTImageViewerController", ofType: "bundle")!)!, value: "", comment: "")
+    }
 }

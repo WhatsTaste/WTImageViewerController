@@ -18,24 +18,23 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
         // Initialization code
         contentView.clipsToBounds = true
         contentView.addSubview(contentScrollView)
-        contentScrollView.addSubview(contentImageView)
         contentView.addSubview(progressView)
+        contentScrollView.addSubview(contentImageView)
         
         contentView.addConstraint(NSLayoutConstraint.init(item: contentScrollView, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: WTImageViewerControllerMargin))
         contentView.addConstraint(NSLayoutConstraint.init(item: contentView, attribute: .right, relatedBy: .equal, toItem: contentScrollView, attribute: .right, multiplier: 1, constant: WTImageViewerControllerMargin))
         contentView.addConstraint(NSLayoutConstraint.init(item: contentScrollView, attribute: .top, relatedBy: .equal, toItem: contentView, attribute: .top, multiplier: 1, constant: 0))
         contentView.addConstraint(NSLayoutConstraint.init(item: contentView, attribute: .bottom, relatedBy: .equal, toItem: contentScrollView, attribute: .bottom, multiplier: 1, constant: 0))
         
-        contentImageViewLeftConstraint = NSLayoutConstraint.init(item: contentImageView, attribute: .left, relatedBy: .equal, toItem: contentScrollView, attribute: .left, multiplier: 1, constant: WTImageViewerControllerMargin)
-        contentImageViewRightConstraint = NSLayoutConstraint.init(item: contentScrollView, attribute: .right, relatedBy: .equal, toItem: contentImageView, attribute: .right, multiplier: 1, constant: WTImageViewerControllerMargin)
-        contentImageViewTopConstraint = NSLayoutConstraint.init(item: contentImageView, attribute: .top, relatedBy: .equal, toItem: contentScrollView, attribute: .top, multiplier: 1, constant: 0)
-        contentImageViewBottomConstraint = NSLayoutConstraint.init(item: contentScrollView, attribute: .bottom, relatedBy: .equal, toItem: contentImageView, attribute: .bottom, multiplier: 1, constant: 0)
-        contentScrollView.addConstraints([contentImageViewLeftConstraint, contentImageViewRightConstraint, contentImageViewTopConstraint, contentImageViewBottomConstraint])
-        
-        contentView.addConstraint(NSLayoutConstraint.init(item: progressView, attribute: .centerX, relatedBy: .equal, toItem: contentScrollView, attribute: .centerX, multiplier: 1, constant: 0))
-        contentView.addConstraint(NSLayoutConstraint.init(item: progressView, attribute: .centerY, relatedBy: .equal, toItem: contentScrollView, attribute: .centerY, multiplier: 1, constant: 0))
+        contentView.addConstraint(NSLayoutConstraint.init(item: progressView, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1, constant: 0))
+        contentView.addConstraint(NSLayoutConstraint.init(item: progressView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1, constant: 0))
         progressView.addConstraint(NSLayoutConstraint.init(item: progressView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 60))
         progressView.addConstraint(NSLayoutConstraint.init(item: progressView, attribute: .height, relatedBy: .equal, toItem: progressView, attribute: .width, multiplier: 1, constant: 0))
+        
+        contentScrollView.addConstraint(NSLayoutConstraint.init(item: contentImageView, attribute: .left, relatedBy: .equal, toItem: contentScrollView, attribute: .left, multiplier: 1, constant: 0))
+        contentScrollView.addConstraint(NSLayoutConstraint.init(item: contentScrollView, attribute: .right, relatedBy: .equal, toItem: contentImageView, attribute: .right, multiplier: 1, constant: 0))
+        contentScrollView.addConstraint(NSLayoutConstraint.init(item: contentImageView, attribute: .top, relatedBy: .equal, toItem: contentScrollView, attribute: .top, multiplier: 1, constant: 0))
+        contentScrollView.addConstraint(NSLayoutConstraint.init(item: contentScrollView, attribute: .bottom, relatedBy: .equal, toItem: contentImageView, attribute: .bottom, multiplier: 1, constant: 0))
         
         contentView.addGestureRecognizer(singleTapGestureRecognizer)
         contentView.addGestureRecognizer(doubleTapGestureRecognizer)
@@ -44,6 +43,14 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        updateContentSize()
+        
+        updateContentInset()
     }
     
     override func prepareForReuse() {
@@ -56,16 +63,16 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
     }
     
     // MARK: UIScrollViewDelegate
-    
+
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return contentImageView
     }
-    
+
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
         //        print(#function + ":\(scrollView.zoomScale)")
         scrollView.panGestureRecognizer.isEnabled = true
     }
-    
+
     func scrollViewDidEndZooming(_ scrollView: UIScrollView, with view: UIView?, atScale scale: CGFloat) {
         // There is a bug, especially prevalent on iPhone 6 Plus, that causes zooming to render all other gesture recognizers ineffective.
         // This bug is fixed by disabling the pan gesture recognizer of the scroll view when it is not needed.
@@ -74,8 +81,12 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
         }
     }
     
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        updateContentInset()
+    }
+
     // MARK: - UIGestureRecognizerDelegate
-    
+
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
         let location = touch.location(in: contentView)
         let inside = contentButton.frame.contains(location)
@@ -88,20 +99,20 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
     @objc private func singleTapAction(_ sender: UITapGestureRecognizer) {
         singleTapHandler?()
     }
-    
+
     @objc private func doubleTapAction(_ sender: UITapGestureRecognizer) {
         if contentScrollView.zoomScale > contentScrollView.minimumZoomScale {
             contentScrollView.setZoomScale(contentScrollView.minimumZoomScale, animated: true)
         } else {
             let location = sender.location(in: contentImageView)
             let zoomScale = contentScrollView.maximumZoomScale
-            let size = bounds.size
+            let size = contentScrollView.bounds.size
             let width = size.width / zoomScale
             let height = size.height / zoomScale
             let x = location.x - width / 2
             let y = location.y - height / 2
             let rect = CGRect(x: x, y: y, width: width, height: height)
-            //            print(#function + "\(rect)")
+//            print(#function + "\(rect)")
             contentScrollView.zoom(to: rect, animated: true)
         }
     }
@@ -110,23 +121,36 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
         contentButtonHandler?(sender)
     }
     
-    func makeContentCenter() {
-//        print(#function + " \(contentScrollView.bounds) VS \(contentView.bounds)")
-        if let image = contentImageView.image {
-            let imageWidth = image.size.width
-            let imageHeight = image.size.height
-            
-            let width = contentScrollView.bounds.size.width
-            let height = contentScrollView.bounds.size.height
-            
-            let horizontalPadding = max((width - contentScrollView.zoomScale * imageWidth) / 2, 0)
-            let verticalPadding = max((height - contentScrollView.zoomScale * imageHeight) / 2, 0)
-            
-            contentImageViewLeftConstraint.constant = horizontalPadding
-            contentImageViewRightConstraint.constant = horizontalPadding
-            contentImageViewTopConstraint.constant = verticalPadding
-            contentImageViewBottomConstraint.constant = verticalPadding
+    private func updateContentSize() {
+        guard let someImage = contentImageView.image else {
+            return
         }
+        let bounds = contentScrollView.bounds
+        let imageSize = someImage.size
+        let scale: CGFloat = bounds.width / imageSize.width
+        let factor: CGFloat = imageSize.height / imageSize.width
+        let contentSize = CGSize(width: bounds.width, height: floor(bounds.width * factor))
+        contentScrollView.contentSize = contentSize
+        self.contentSize = contentSize
+//        print(#function + "\(contentSize)")
+        contentScrollView.minimumZoomScale = scale
+        contentScrollView.maximumZoomScale = contentScrollView.minimumZoomScale * 3
+        contentScrollView.zoomScale = contentScrollView.minimumZoomScale
+    }
+    
+    private func updateContentInset() {
+        var x: CGFloat = 0
+        var y: CGFloat = 0
+        if contentSize.width < contentScrollView.bounds.width {
+            x = (contentScrollView.bounds.width - contentSize.width) / 2
+        }
+        if contentSize.height < contentScrollView.bounds.height {
+            y = (contentScrollView.bounds.height - contentSize.height) / 2
+        }
+        x -= contentScrollView.frame.minX - WTImageViewerControllerMargin
+        y -= contentScrollView.frame.minY
+        contentScrollView.contentInset = .init(top: y, left: x, bottom: y, right: x)
+//        print(#function + "contentInset: \(contentScrollView.contentInset) contentSize: \(contentSize) bounds: \(contentScrollView.bounds)")
     }
     
     // MARK: - Properties
@@ -144,20 +168,7 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
             guard self != nil else {
                 return
             }
-            guard let someImage = image else {
-                return
-            }
-            let bounds = self!.contentView.bounds.insetBy(dx: WTImageViewerControllerMargin, dy: 0)
-            let imageSize = someImage.size
-            let scale: CGFloat = bounds.width / imageSize.width
-            let factor: CGFloat = imageSize.height / imageSize.width
-            let scaledImageSize = CGSize(width: bounds.width, height: floor(bounds.width * factor))
-            self!.contentScrollView.minimumZoomScale = scale
-            self!.contentScrollView.maximumZoomScale = self!.contentScrollView.minimumZoomScale * 3
-            self!.contentScrollView.zoomScale = self!.contentScrollView.minimumZoomScale
-            self!.contentScrollView.contentSize = scaledImageSize
-            
-            self!.makeContentCenter()
+            self!.setNeedsLayout()
         }
         return imageView
     }()
@@ -181,7 +192,7 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
         button.contentHorizontalAlignment = .center
         button.contentVerticalAlignment = .center
         button.setTitleColor(UIColor.red, for: .normal)
-        button.setTitle("Retry", for: .normal)
+        button.setTitle(self.WTIVLocalizedString("Retry"), for: .normal)
         button.addTarget(self, action: #selector(contentButtonAction(_:)), for: .touchUpInside)
         self.contentView.addSubview(button)
         self.contentView.addConstraint(NSLayoutConstraint.init(item: button, attribute: .left, relatedBy: .greaterThanOrEqual, toItem: self.contentView, attribute: .left, multiplier: 1, constant: 0))
@@ -192,7 +203,7 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
     }()
     
     lazy public private(set) var contentScrollView: UIScrollView = {
-        let scrollView = UIScrollView(frame: self.bounds.insetBy(dx: WTImageViewerControllerMargin, dy: WTImageViewerControllerMargin))
+        let scrollView = UIScrollView(frame: self.contentView.bounds.insetBy(dx: WTImageViewerControllerMargin, dy: 0))
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.backgroundColor = UIColor.black
         scrollView.isMultipleTouchEnabled = true
@@ -213,7 +224,7 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
         gestureRecognizer.delegate = self
         return gestureRecognizer
     }()
-    
+//
     lazy private var doubleTapGestureRecognizer: UITapGestureRecognizer = {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapAction(_:)))
         gestureRecognizer.numberOfTapsRequired = 2
@@ -221,10 +232,7 @@ class WTImageViewerCell: UICollectionViewCell, UIScrollViewDelegate, UIGestureRe
         return gestureRecognizer
     }()
     
-    weak var contentImageViewLeftConstraint: NSLayoutConstraint!
-    weak var contentImageViewRightConstraint: NSLayoutConstraint!
-    weak var contentImageViewTopConstraint: NSLayoutConstraint!
-    weak var contentImageViewBottomConstraint: NSLayoutConstraint!
+    private var contentSize: CGSize = .zero
 }
 
 typealias WTImageViewerCellImageViewHandler = (_ image: UIImage?) -> Void

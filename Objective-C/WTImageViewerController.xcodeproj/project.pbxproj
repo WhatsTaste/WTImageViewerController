@@ -18,6 +18,7 @@
 		286A7F671E837938000AF690 /* WTImageViewerAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F631E837938000AF690 /* WTImageViewerAsset.swift */; };
 		286A7F681E837938000AF690 /* WTImageViewerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F641E837938000AF690 /* WTImageViewerCell.swift */; };
 		286A7F691E837938000AF690 /* WTImageViewerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 286A7F651E837938000AF690 /* WTImageViewerController.swift */; };
+		28DBA659202946E6000B9B9C /* WTImageViewerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 28DBA658202946E6000B9B9C /* WTImageViewerController.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		286A7F631E837938000AF690 /* WTImageViewerAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WTImageViewerAsset.swift; sourceTree = "<group>"; };
 		286A7F641E837938000AF690 /* WTImageViewerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WTImageViewerCell.swift; sourceTree = "<group>"; };
 		286A7F651E837938000AF690 /* WTImageViewerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WTImageViewerController.swift; sourceTree = "<group>"; };
+		28DBA658202946E6000B9B9C /* WTImageViewerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = WTImageViewerController.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +155,7 @@
 				286A7F651E837938000AF690 /* WTImageViewerController.swift */,
 				286A7F641E837938000AF690 /* WTImageViewerCell.swift */,
 				286A7F631E837938000AF690 /* WTImageViewerAsset.swift */,
+				28DBA658202946E6000B9B9C /* WTImageViewerController.bundle */,
 			);
 			name = Vendor;
 			path = ../../Vendor;
@@ -269,6 +272,7 @@
 			files = (
 				286A7F3F1E83790B000AF690 /* LaunchScreen.storyboard in Resources */,
 				286A7F3C1E83790B000AF690 /* Assets.xcassets in Resources */,
+				28DBA659202946E6000B9B9C /* WTImageViewerController.bundle in Resources */,
 				286A7F3A1E83790B000AF690 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,7 +404,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -448,7 +452,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
